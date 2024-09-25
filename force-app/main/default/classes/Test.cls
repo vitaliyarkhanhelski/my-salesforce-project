@@ -1,0 +1,6 @@
+public with sharing class Test {
+
+    public static void hello() {
+        System.debug('Hello World');
+    }
+}
