@@ -1,4 +1,4 @@
-public with sharing class Test {
+public with sharing class MyClass {
 
     public static void hello() {
         System.debug('Hello World');
@@ -10,5 +10,9 @@ public with sharing class Test {
 
     public static void hello3() {
         System.debug('Jan Kowalski');
+    }
+
+    public static void deploy() {
+        System.debug('Let\'s deploy me');
     }
 }
