@@ -26,6 +26,7 @@ jobs:
         run: |
           configdir="$HOME/.config/sf"
           mkdir -p "$configdir"
+          echo "Hello World......"
           echo '["sfdx-git-delta"]' > $configdir/unsignedPluginAllowList.json
           sf plugins:install sfdx-git-delta
 #        run: npm install --global sfdx-git-delta
@@ -40,6 +41,8 @@ jobs:
 
 #      - name: Run Apex Tests
 #        run: sf apex run test --result-format human --code-coverage --wait 10 -o ${{ secrets.SALESFORCE_GITHUB_USERNAME }}
+
+
 
       - name: Deploy to Salesforce
         id: deploy
