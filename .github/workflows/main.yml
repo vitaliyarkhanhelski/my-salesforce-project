@@ -16,7 +16,7 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
         with:
-          fetch-depth: 2 # Fetch the last 2 commits - remove later
+          fetch-depth: 3 # Fetch the last 2 commits - remove later
 
       - name: Install Salesforce CLI
         run: npm install --global @salesforce/cli
@@ -51,7 +51,7 @@ jobs:
 
       - name: Preview Deployment
         run: |
-          sf project deploy preview --manifest=./md_out/package/package.xml --target-org=${{ secrets.SALESFORCE_GITHUB_USERNAME }}
+          sf project deploy validate --manifest=./md_out/package/package.xml --test-level=RunLocalTests --target-org=${{ secrets.SALESFORCE_GITHUB_USERNAME }})
 
       - name: Deploy to Salesforce
         id: deploy
