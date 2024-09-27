@@ -41,7 +41,7 @@ jobs:
 #      - name: Run Apex Tests
 #        run: sf apex run test --result-format human --code-coverage --wait 10 -o ${{ secrets.SALESFORCE_GITHUB_USERNAME }}
 
-      - name: Generate Delta Package
+      - name: Find delta changes and create package.xml
         run: |
           mkdir -p "md_out"
           sf sgd source delta --to "HEAD" --from "origin/main" --output ./md_out
@@ -56,7 +56,7 @@ jobs:
       - name: Deploy to Salesforce
         id: deploy
         run: |
-          deploy_output=$(sf project deploy start --manifest=manifest/package.xml --test-level=RunLocalTests --target-org=${{ secrets.SALESFORCE_GITHUB_USERNAME }})
+          deploy_output=$(sf project deploy start --manifest=./md_out/package/package.xml --test-level=RunLocalTests --target-org=${{ secrets.SALESFORCE_GITHUB_USERNAME }})
           echo "Deploy Output: $deploy_output"
           echo "DEPLOY_ID=$(echo $deploy_output | grep -o 'Deploy ID: [^ ]*' | awk '{print $3}')" >> $GITHUB_ENV
 
