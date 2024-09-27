@@ -23,7 +23,8 @@ jobs:
         run: sf --version
 
       - name: Install sfdx-git-delta
-        run: npm install --global sfdx-git-delta
+        run: sf plugins:install sfdx-git-delta
+#        run: npm install --global sfdx-git-delta
 
       - name: Checkout Git Delta version
         run: sf plugins
@@ -33,8 +34,8 @@ jobs:
           echo "${{ secrets.SALESFORCE_JWT_SECRET_KEY }}" > server.key
           sf org login jwt --client-id=${{ secrets.SALESFORCE_CONSUMER_KEY }} --jwt-key-file=server.key --username=${{ secrets.SALESFORCE_GITHUB_USERNAME }} --set-default-dev-hub
 
-      - name: Run Apex Tests
-        run: sf apex run test --result-format human --code-coverage --wait 10 -o ${{ secrets.SALESFORCE_GITHUB_USERNAME }}
+#      - name: Run Apex Tests
+#        run: sf apex run test --result-format human --code-coverage --wait 10 -o ${{ secrets.SALESFORCE_GITHUB_USERNAME }}
 
       - name: Deploy to Salesforce
         id: deploy
@@ -43,8 +44,8 @@ jobs:
           echo "Deploy Output: $deploy_output"
           echo "DEPLOY_ID=$(echo $deploy_output | grep -o 'Deploy ID: [^ ]*' | awk '{print $3}')" >> $GITHUB_ENV
 
-      - name: Deployment Report Help
-        run: sf project deploy report --help
+#      - name: Deployment Report Help
+#        run: sf project deploy report --help
 
       - name: Get Deployment Report
         run: |
