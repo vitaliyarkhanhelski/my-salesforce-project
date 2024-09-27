@@ -50,20 +50,19 @@ jobs:
           cat ./md_out/package/package.xml
 
       - name: Preview Deployment
-        run: |
-          sf project deploy validate --manifest=./md_out/package/package.xml --test-level=RunLocalTests --target-org=${{ secrets.SALESFORCE_GITHUB_USERNAME }})
+        run: sf project deploy validate --manifest=./md_out/package/package.xml --test-level=RunLocalTests --target-org=${{ secrets.SALESFORCE_GITHUB_USERNAME }})
 
-      - name: Deploy to Salesforce
-        id: deploy
-        run: |
-          deploy_output=$(sf project deploy start --manifest=./md_out/package/package.xml --test-level=RunLocalTests --target-org=${{ secrets.SALESFORCE_GITHUB_USERNAME }})
-          echo "Deploy Output: $deploy_output"
-          echo "DEPLOY_ID=$(echo $deploy_output | grep -o 'Deploy ID: [^ ]*' | awk '{print $3}')" >> $GITHUB_ENV
+#      - name: Deploy to Salesforce
+#        id: deploy
+#        run: |
+#          deploy_output=$(sf project deploy start --manifest=./md_out/package/package.xml --test-level=RunLocalTests --target-org=${{ secrets.SALESFORCE_GITHUB_USERNAME }})
+#          echo "Deploy Output: $deploy_output"
+#          echo "DEPLOY_ID=$(echo $deploy_output | grep -o 'Deploy ID: [^ ]*' | awk '{print $3}')" >> $GITHUB_ENV
 
 #      - name: Deployment Report Help
 #        run: sf project deploy report --help
 
-      - name: Get Deployment Report
-        run: |
-          echo "Deploy Id: ${{ env.DEPLOY_ID }}"
-          sf project deploy report --use-most-recent --wait 20 --target-org ${{ secrets.SALESFORCE_GITHUB_USERNAME }}
+#      - name: Get Deployment Report
+#        run: |
+#          echo "Deploy Id: ${{ env.DEPLOY_ID }}"
+#          sf project deploy report --use-most-recent --wait 20 --target-org ${{ secrets.SALESFORCE_GITHUB_USERNAME }}
