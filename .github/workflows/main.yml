@@ -50,6 +50,6 @@ jobs:
       - name: Get Deployment Report
         run: |
           echo "Deploy Id: ${{ steps.deploy.outputs.deploy_id }}"
-          sf project deploy report --wait=20 --target-org=${{ secrets.SALESFORCE_GITHUB_USERNAME }} --deploy-id=${{ steps.deploy.outputs.deploy_id }}
+          sf project deploy report --wait=20 --target-org=${{ secrets.SALESFORCE_GITHUB_USERNAME }} --job-id=${{ steps.deploy.outputs.deploy_id }}
 #          echo "Deploy Id: ${{ env.DEPLOY_ID }}"
 #          sf project deploy report --use-most-recent --wait 20 --target-org ${{ secrets.SALESFORCE_GITHUB_USERNAME }}
