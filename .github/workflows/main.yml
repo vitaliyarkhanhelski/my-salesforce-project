@@ -30,5 +30,11 @@ jobs:
       - name: Run Apex Tests
         run: sf apex run test --result-format human --code-coverage --wait 10 -o ${{ secrets.SALESFORCE_GITHUB_USERNAME }}
 
+#      - name: Deploy to Salesforce
+#        run: sf project deploy start --manifest=manifest/package.xml --test-level=RunLocalTests --target-org=${{ secrets.SALESFORCE_GITHUB_USERNAME }}
       - name: Deploy to Salesforce
-        run: sf project deploy start --manifest=manifest/package.xml --test-level=RunLocalTests --target-org=${{ secrets.SALESFORCE_GITHUB_USERNAME }}
+        id: deploy
+        run: |
+          deploy_output=$(sf project deploy start --manifest=manifest/package.xml --test-level=RunLocalTests --target-org=${{ secrets.SALESFORCE_GITHUB_USERNAME }})
+          echo "Deploy Output: $deploy_output"
+          echo "::set-output name=deploy_id::$(echo $deploy_output | grep -o 'Deploy ID: [^ ]*' | awk '{print $3}')"
