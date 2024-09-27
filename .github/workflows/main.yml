@@ -22,6 +22,12 @@ jobs:
       - name: Checkout Salesforce CLI version
         run: sf --version
 
+      - name: Install sfdx-git-delta
+        run: npm install --global sfdx-git-delta
+
+      - name: Checkout Git Delta version
+        run: sf plugins
+
       - name: Authenticate to Salesforce
         run: |
           echo "${{ secrets.SALESFORCE_JWT_SECRET_KEY }}" > server.key
