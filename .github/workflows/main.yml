@@ -47,5 +47,5 @@ jobs:
       - name: Deployment Report Help
         run: sf project deploy report --help
 
-#      - name: Get Deployment Report
-#        run: sf project deploy report --job-id ${{ env.DEPLOY_ID }} --wait 20 --target-org ${{ secrets.SALESFORCE_GITHUB_USERNAME }}
+      - name: Get Deployment Report
+        run: sf project deploy report -i ${{ env.DEPLOY_ID }} --wait 20 --target-org ${{ secrets.SALESFORCE_GITHUB_USERNAME }}
