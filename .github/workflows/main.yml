@@ -17,4 +17,5 @@ jobs:
 #      - run: sfdx force:apex:test:run --resultformat=human --codecoverage --wait=10 -u ${{ secrets.SALESFORCE_GITHUB_USERNAME }}
 #      - run: sfdx force:source:deploy --manifest=manifest/package.xml --testlevel=RunLocalTests -u ${{ secrets.SALESFORCE_GITHUB_USERNAME }}
       - run: sf org login jwt --client-id=${{ secrets.SALESFORCE_CONSUMER_KEY }} --jwt-key-file=server.key --username=${{ secrets.SALESFORCE_GITHUB_USERNAME }} --set-default-dev-hub
+      - run: sf apex run test --result-format human --code-coverage --wait 10 -o ${{ secrets.SALESFORCE_GITHUB_USERNAME }}
       - run: sf project deploy start --manifest=manifest/package.xml --test-level=RunLocalTests --target-org=${{ secrets.SALESFORCE_GITHUB_USERNAME }}
