@@ -23,7 +23,11 @@ jobs:
         run: sf --version
 
       - name: Install sfdx-git-delta
-        run: sf plugins:install sfdx-git-delta
+        run: |
+          configdir="$HOME/.config/sf"
+          mkdir -p "$configdir"
+          echo '["sfdx-git-delta"]' > $configdir/unsignedPluginAllowList.json
+          sf plugins:install sfdx-git-delta
 #        run: npm install --global sfdx-git-delta
 
       - name: Checkout Git Delta version
