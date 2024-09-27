@@ -17,6 +17,6 @@ public with sharing class MyClass {
         System.debug('Deploying...');
         System.debug('CRM');
         System.debug('');
-        System.debug('Deploy me');
+        System.debug('Deploy me!');
     }
 }
