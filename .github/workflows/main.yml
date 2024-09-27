@@ -27,29 +27,20 @@ jobs:
           echo "${{ secrets.SALESFORCE_JWT_SECRET_KEY }}" > server.key
           sf org login jwt --client-id=${{ secrets.SALESFORCE_CONSUMER_KEY }} --jwt-key-file=server.key --username=${{ secrets.SALESFORCE_GITHUB_USERNAME }} --set-default-dev-hub
 
-#      - name: Run Apex Tests
-#        run: sf apex run test --result-format human --code-coverage --wait 10 -o ${{ secrets.SALESFORCE_GITHUB_USERNAME }}
+      - name: Run Apex Tests
+        run: sf apex run test --result-format human --code-coverage --wait 10 -o ${{ secrets.SALESFORCE_GITHUB_USERNAME }}
 
-#      - name: Deploy to Salesforce
-#        run: sf project deploy start --manifest=manifest/package.xml --test-level=RunLocalTests --target-org=${{ secrets.SALESFORCE_GITHUB_USERNAME }}
       - name: Deploy to Salesforce
         id: deploy
         run: |
           deploy_output=$(sf project deploy start --manifest=manifest/package.xml --test-level=RunLocalTests --target-org=${{ secrets.SALESFORCE_GITHUB_USERNAME }})
           echo "Deploy Output: $deploy_output"
-          echo "::set-output name=deploy_id::$(echo $deploy_output | grep -o 'Deploy ID: [^ ]*' | awk '{print $3}')"
-#          echo "DEPLOY_ID=$(echo $deploy_output | grep -o 'Deploy ID: [^ ]*' | awk '{print $3}')" >> $GITHUB_ENV
+          echo "DEPLOY_ID=$(echo $deploy_output | grep -o 'Deploy ID: [^ ]*' | awk '{print $3}')" >> $GITHUB_ENV
 
-#      - name: Get Deployment Report
-#        run: |
-#          sf project deploy report --wait=20 --target-org=${{ secrets.SALESFORCE_GITHUB_USERNAME }} --deploy-id=${{ steps.deploy.outputs.deploy_id }}
-#
-#      - name: Deployment Report Help
-#        run: sf project deploy report --help
+      - name: Deployment Report Help
+        run: sf project deploy report --help
 
       - name: Get Deployment Report
         run: |
-          echo "Deploy Id: ${{ steps.deploy.outputs.deploy_id }}"
-          sf project deploy report --wait=20 --target-org=${{ secrets.SALESFORCE_GITHUB_USERNAME }} --job-id=${{ steps.deploy.outputs.deploy_id }}
-#          echo "Deploy Id: ${{ env.DEPLOY_ID }}"
-#          sf project deploy report --use-most-recent --wait 20 --target-org ${{ secrets.SALESFORCE_GITHUB_USERNAME }}
+          echo "Deploy Id: ${{ env.DEPLOY_ID }}"
+          sf project deploy report --use-most-recent --wait 20 --target-org ${{ secrets.SALESFORCE_GITHUB_USERNAME }}
