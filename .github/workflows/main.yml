@@ -44,7 +44,7 @@ jobs:
       - name: Generate Delta Package
         run: |
           mkdir -p delta_package
-          sgd --to HEAD --from HEAD~1 --output delta_package --generate-delta
+          sf sgd --to HEAD --from HEAD~1 --output delta_package --generate-delta
 
 #      - name: Find delta changes and create package.xml
 #          mkdir -p "md_out"
