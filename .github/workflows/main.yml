@@ -46,4 +46,4 @@ jobs:
 
       - name: Get Deployment Report
         run: |
-          sf project deploy report --wait=20 --target-org=${{ secrets.SALESFORCE_GITHUB_USERNAME }} --deploy-id=${{ env.DEPLOY_ID }}
+          sf project deploy report --wait=20 --target-org=${{ secrets.SALESFORCE_GITHUB_USERNAME }} --deployment-id=${{ env.DEPLOY_ID }}
