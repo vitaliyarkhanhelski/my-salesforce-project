@@ -39,3 +39,11 @@ jobs:
           echo "Deploy Output: $deploy_output"
           echo "DEPLOY_ID=$(echo $deploy_output | grep -o 'Deploy ID: [^ ]*' | awk '{print $3}')" >> $GITHUB_ENV
 #          echo "::set-output name=deploy_id::$(echo $deploy_output | grep -o 'Deploy ID: [^ ]*' | awk '{print $3}')"
+
+#      - name: Get Deployment Report
+#        run: |
+#          sf project deploy report --wait=20 --target-org=${{ secrets.SALESFORCE_GITHUB_USERNAME }} --deploy-id=${{ steps.deploy.outputs.deploy_id }}
+
+      - name: Get Deployment Report
+        run: |
+          sf project deploy report --wait=20 --target-org=${{ secrets.SALESFORCE_GITHUB_USERNAME }} --deploy-id=${{ env.DEPLOY_ID }}
