@@ -13,6 +13,6 @@ public with sharing class MyClass {
     }
 
     public static void deploy() {
-        System.debug('Let\'s deploy me!!!!!!!!');
+        System.debug('Let\'s deploy me!!!!!!!!!');
     }
 }
