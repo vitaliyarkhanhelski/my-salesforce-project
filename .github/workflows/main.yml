@@ -48,12 +48,10 @@ jobs:
           mkdir -p "md_out"
           sf sgd source delta --to "HEAD" --from "HEAD~1" --output ./md_out
           cat ./md_out/package/package.xml
-#          sf sgd --to HEAD --from HEAD~1 --output delta_package --generate-delta
 
-#      - name: Find delta changes and create package.xml
-#          mkdir -p "md_out"
-#          sf sgd:source:delta --to HEAD --from $DEST_GIT_BRANCH --output ./md_out
-#          cat ./md_out/package/package.xml
+      - name: Preview Deployment
+        run: |
+          sf project deploy preview --manifest=./md_out/package/package.xml --target-org=${{ secrets.SALESFORCE_GITHUB_USERNAME }}
 
       - name: Deploy to Salesforce
         id: deploy
