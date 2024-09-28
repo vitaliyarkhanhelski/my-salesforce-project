@@ -1,6 +1,6 @@
-name: SFDX-CLI Deploy from Repository on Push to main
+name: SFDX-CLI Validate on PR open to main
 on:
-  push:
+  pull_request:
     branches:
       - main
 jobs:
@@ -52,18 +52,18 @@ jobs:
       - name: Find delta changes and create package.xml
         run: |
           mkdir -p "md_out"
-          sf sgd source delta --to "HEAD" --from "HEAD~1" --output ./md_out
+          sf sgd source delta --to "HEAD" --from "origin/main" --output ./md_out
           cat ./md_out/package/package.xml
 
       - name: Preview Deployment
         run: sf project deploy validate --manifest=./md_out/package/package.xml --test-level=RunLocalTests --target-org=${{ secrets.SALESFORCE_GITHUB_USERNAME }}
 
-      - name: Deploy to Salesforce
-        id: deploy
-        run: |
-          deploy_output=$(sf project deploy start --manifest=./md_out/package/package.xml --test-level=RunLocalTests --target-org=${{ secrets.SALESFORCE_GITHUB_USERNAME }})
-          echo "Deploy Output: $deploy_output"
-          echo "DEPLOY_ID=$(echo $deploy_output | grep -o 'Deploy ID: [^ ]*' | awk '{print $3}')" >> $GITHUB_ENV
+#      - name: Deploy to Salesforce
+#        id: deploy
+#        run: |
+#          deploy_output=$(sf project deploy start --manifest=./md_out/package/package.xml --test-level=RunLocalTests --target-org=${{ secrets.SALESFORCE_GITHUB_USERNAME }})
+#          echo "Deploy Output: $deploy_output"
+#          echo "DEPLOY_ID=$(echo $deploy_output | grep -o 'Deploy ID: [^ ]*' | awk '{print $3}')" >> $GITHUB_ENV
 
       - name: Get Deployment Report
         run: |
