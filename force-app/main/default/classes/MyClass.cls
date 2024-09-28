@@ -13,6 +13,7 @@ public with sharing class MyClass {
     }
 
     public static void deploy() {
+        Integer a = 1;
         System.debug('Let\'s deploy me!!!!!!!!!');
         System.debug('Deploying...');
         System.debug('CRM');

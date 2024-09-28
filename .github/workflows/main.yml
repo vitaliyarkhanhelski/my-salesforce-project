@@ -39,7 +39,7 @@ jobs:
 
       - name: Run Code Scan
         run: |
-          sf scanner run --target "./force-app/main/default/classes/*.cls" --category "Security" --format "table"
+          sf scanner run --target "./force-app/main/default/classes/*.cls" --pmdconfig ./ruleref.xml --format "table"
 
       - name: Authenticate to Salesforce
         run: |
