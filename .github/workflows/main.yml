@@ -6,6 +6,7 @@ on:
 jobs:
   SFDX-CLI-Deploy:
     runs-on: ubuntu-latest
+
     steps:
       - name: Runner
         run: echo "🐧 GitHub Action running on ${{ runner.os }}"
