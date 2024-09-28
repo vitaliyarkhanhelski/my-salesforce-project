@@ -34,8 +34,12 @@ jobs:
       - name: Install Salesforce Scanner Plugin
         run: sf plugins:install @salesforce/sfdx-scanner
 
-      - name: Checkout Git Delta version
+      - name: Checkout Salesforce plugins version
         run: sf plugins
+
+      - name: Run Code Scan
+        run: |
+          sf scanner run --target "./force-app/main/default/classes/*.cls" --category "Security" --format "table"
 
       - name: Authenticate to Salesforce
         run: |
