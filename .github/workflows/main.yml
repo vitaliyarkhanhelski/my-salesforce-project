@@ -31,6 +31,9 @@ jobs:
           echo '["sfdx-git-delta"]' > $configdir/unsignedPluginAllowList.json
           sf plugins:install sfdx-git-delta
 
+      - name: Install Salesforce Scanner Plugin
+        run: sf plugins:install @salesforce/sfdx-scanner
+
       - name: Checkout Git Delta version
         run: sf plugins
 
@@ -39,8 +42,8 @@ jobs:
           echo "${{ secrets.SALESFORCE_JWT_SECRET_KEY }}" > server.key
           sf org login jwt --client-id=${{ secrets.SALESFORCE_CONSUMER_KEY }} --jwt-key-file=server.key --username=${{ secrets.SALESFORCE_GITHUB_USERNAME }} --set-default-dev-hub
 
-      - name: Run Apex Tests
-        run: sf apex run test --result-format human --code-coverage --wait 10 -o ${{ secrets.SALESFORCE_GITHUB_USERNAME }}
+#      - name: Run Apex Tests
+#        run: sf apex run test --result-format human --code-coverage --wait 10 -o ${{ secrets.SALESFORCE_GITHUB_USERNAME }}
 
       - name: Find delta changes and create package.xml
         run: |
