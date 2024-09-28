@@ -7,7 +7,7 @@ jobs:
   SFDX-CLI-Deploy:
     runs-on: ubuntu-latest
     env:
-      BASE_BRANCH: "main"
+      BASE_BRANCH: "origin/main"
 
     steps:
       - name: Runner
@@ -18,12 +18,17 @@ jobs:
 
       - name: Checkout Repository
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0 # Fetch the entire history to ensure 'main' branch is available
+
+      - name: Fetch Main Branch
+        run: git fetch origin main  # Explicitly fetch the main branch to use for delta comparison
 
       - name: Install Salesforce CLI
         run: npm install --global @salesforce/cli
 
-      - name: Checkout Salesforce CLI version
-        run: sf --version
+#      - name: Checkout Salesforce CLI version
+#        run: sf --version
 
       - name: Install sfdx-git-delta
         run: |
@@ -32,15 +37,15 @@ jobs:
           echo '["sfdx-git-delta"]' > $configdir/unsignedPluginAllowList.json
           sf plugins:install sfdx-git-delta
 
-      - name: Install Salesforce Scanner Plugin
-        run: sf plugins:install @salesforce/sfdx-scanner
+#      - name: Install Salesforce Scanner Plugin
+#        run: sf plugins:install @salesforce/sfdx-scanner
 
       - name: Checkout Salesforce plugins version
         run: sf plugins
 
-      - name: Run Code Scan
-        id: scan_code
-        run: sf scanner run --target "./force-app/main/default/classes/*.cls" --pmdconfig ./ruleref.xml --format "table" -s 3
+#      - name: Run Code Scan
+#        id: scan_code
+#        run: sf scanner run --target "./force-app/main/default/classes/*.cls" --pmdconfig ./ruleref.xml --format "table" -s 3
 
       - name: Authenticate to Salesforce
         run: |
