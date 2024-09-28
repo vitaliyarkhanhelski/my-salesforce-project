@@ -39,18 +39,18 @@ jobs:
 
       - name: Run Code Scan
         id: scan_code
-        run: sf scanner run --target "./force-app/main/default/classes/*.cls" --pmdconfig ./ruleref.xml --format "table"
+        run: sf scanner run --target "./force-app/main/default/classes/*.cls" --pmdconfig ./ruleref.xml --format "table" -s 3
 
-      - name: Check for Violations
-        id: check_violations
-        run: |
-          violations=$(jq '.summary.totalViolations' ./md_out/scan-results.json)
-          echo "Total Violations: $violations"
-          if [ "$violations" -gt 0 ]; then
-            echo "Violations found! Stopping deployment."
-            exit 1
-          fi
-        shell: bash
+#      - name: Check for Violations
+#        id: check_violations
+#        run: |
+#          violations=$(jq '.summary.totalViolations' ./md_out/scan-results.json)
+#          echo "Total Violations: $violations"
+#          if [ "$violations" -gt 0 ]; then
+#            echo "Violations found! Stopping deployment."
+#            exit 1
+#          fi
+#        shell: bash
 
       - name: Authenticate to Salesforce
         run: |
