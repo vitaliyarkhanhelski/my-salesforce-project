@@ -27,6 +27,12 @@ jobs:
         with:
           fetch-depth: 0 # Fetch the entire history to ensure 'main' branch is available
 
+      - name: Fetch and Checkout Main Branch
+        run: |
+          git fetch origin main
+          git checkout main  # Make sure we're on the main branch
+          git pull origin main  # Pull the latest changes
+
       - name: Fetch Main Branch
         run: git fetch origin main  # Explicitly fetch the main branch to use for delta comparison
 
@@ -63,6 +69,7 @@ jobs:
 
       - name: Find delta changes and create package.xml
         run: |
+          git log -1  # Show the latest commit for debugging
           mkdir -p "md_out"
           sf sgd source delta --to "HEAD" --from "${{ env.BASE_BRANCH }}" --output ./md_out
           cat ./md_out/package/package.xml
