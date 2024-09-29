@@ -29,7 +29,7 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
         with:
-          fetch-depth: 3 # Fetch the last 2 commits - remove later
+          fetch-depth: 3 # Fetch the last 2 commits - remove later (test)
 
 #      - name: Fetch Main Branch
 #        run: git fetch origin main  # Explicitly fetch the main branch to use for delta comparison
