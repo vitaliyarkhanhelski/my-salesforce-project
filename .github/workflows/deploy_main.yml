@@ -1,4 +1,4 @@
-name: SFDX-CLI Deployment on merge PR open to main
+name: SFDX-CLI Deploy on merge PR open to main
 on:
   pull_request:
     branches:
