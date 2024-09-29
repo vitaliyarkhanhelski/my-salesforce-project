@@ -72,7 +72,7 @@ jobs:
       - name: Find delta changes and create package.xml
         run: |
           mkdir -p "md_out"
-          sf sgd source delta --to main --from origin/main --output ./md_out
+          sf sgd source delta --to origin/main --from main --output ./md_out
           cat ./md_out/package/package.xml
 
       - name: Preview Deployment
