@@ -20,5 +20,6 @@ public with sharing class MyClass {
         System.debug('Deploy me!');
         System.debug('Let\'s deploy me!!!!!!!!!!!!!!!!!!!!!');
         System.debug('1');
+        System.debug('2');
     }
 }
