@@ -1,11 +1,11 @@
-name: SFDX-CLI Deploy from Repository on Push to main
+name: SFDX-CLI Deploy from Repository on direct push to main
 on:
   push:
     branches:
       - main
 jobs:
   SFDX-CLI-Deploy:
-    if: github.event_name == 'push'  # This disables the entire job
+    if: github.event_name != 'push'  # This disables the entire job
     runs-on: ubuntu-latest
 
     steps:
@@ -17,7 +17,9 @@ jobs:
           exit 1  # Stops the workflow if this is not a push event
 
       - name: Runner
-        run: echo "🐧 GitHub Action running on ${{ runner.os }}"
+        run: | 
+          echo "🐧 GitHub Action running on ${{ runner.os }}"
+          echo github.event_name == 'push'
 
       - name: GitHub Repository
         run: echo "🔎 Retrieving ${{ github.ref }} from ${{ github.repository }}."
