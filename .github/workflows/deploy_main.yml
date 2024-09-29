@@ -58,8 +58,8 @@ jobs:
           echo "${{ secrets.SALESFORCE_JWT_SECRET_KEY }}" > server.key
           sf org login jwt --client-id=${{ secrets.SALESFORCE_CONSUMER_KEY }} --jwt-key-file=server.key --username=${{ secrets.SALESFORCE_GITHUB_USERNAME }} --set-default-dev-hub
 
-      - name: Run Apex Tests
-        run: sf apex run test --result-format human --code-coverage --wait 10 -o ${{ secrets.SALESFORCE_GITHUB_USERNAME }}
+#      - name: Run Apex Tests
+#        run: sf apex run test --result-format human --code-coverage --wait 10 -o ${{ secrets.SALESFORCE_GITHUB_USERNAME }}
 
       - name: Find delta changes and create package.xml
         run: |
@@ -69,6 +69,13 @@ jobs:
 
       - name: Preview Deployment
         run: sf project deploy validate --manifest=./md_out/package/package.xml --test-level=RunLocalTests --target-org=${{ secrets.SALESFORCE_GITHUB_USERNAME }}
+
+      - name: Deploy to Salesforce
+        id: deploy
+        run: |
+          deploy_output=$(sf project deploy start --manifest=./md_out/package/package.xml --test-level=RunLocalTests --target-org=${{ secrets.SALESFORCE_GITHUB_USERNAME }})
+          echo "Deploy Output: $deploy_output"
+          echo "DEPLOY_ID=$(echo $deploy_output | grep -o 'Deploy ID: [^ ]*' | awk '{print $3}')" >> $GITHUB_ENV
 
       - name: Get Deployment Report
         run: |
