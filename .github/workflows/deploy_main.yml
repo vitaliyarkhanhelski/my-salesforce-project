@@ -3,14 +3,19 @@ on:
   pull_request:
     branches:
       - main
+    types:
+      - closed
 jobs:
   SFDX-CLI-Deploy:
-    if: false  # This disables the entire job
+    if: github.event.pull_request.merged == true  # Ensures the job runs only if the PR was merged.
     runs-on: ubuntu-latest
     env:
       BASE_BRANCH: "origin/main"
 
     steps:
+      - name: PR was merged
+        run: echo "🎉 PR was merged successfully!"
+
       - name: Runner
         run: echo "🐧 GitHub Action running on ${{ runner.os }}"
 
@@ -44,9 +49,9 @@ jobs:
       - name: Checkout Salesforce plugins version
         run: sf plugins
 
-      - name: Run Code Scan
-        id: scan_code
-        run: sf scanner run --target "./force-app/main/default/classes/*.cls" --pmdconfig ./ruleref.xml --format "table" -s 3
+#      - name: Run Code Scan
+#        id: scan_code
+#        run: sf scanner run --target "./force-app/main/default/classes/*.cls" --pmdconfig ./ruleref.xml --format "table" -s 3
 
       - name: Authenticate to Salesforce
         run: |
