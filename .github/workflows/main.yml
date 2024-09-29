@@ -5,7 +5,7 @@ on:
       - main
 jobs:
   SFDX-CLI-Deploy:
-    if: github.event_name == 'push'  # This disables the entire job
+#    if: github.event_name == 'push'  # This disables the entire job
     runs-on: ubuntu-latest
     env:
       BASE_BRANCH: "origin/main"
@@ -29,7 +29,7 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
         with:
-          fetch-depth: 3 # Fetch the last 2 commits - remove later
+          fetch-depth: 0 # Fetch the last 2 commits - remove later
 
 #      - name: Fetch Main Branch
 #        run: git fetch origin main  # Explicitly fetch the main branch to use for delta comparison
@@ -69,6 +69,10 @@ jobs:
 #      - name: Run Apex Tests
 #        run: sf apex run test --result-format human --code-coverage --wait 10 -o ${{ secrets.SALESFORCE_GITHUB_USERNAME }}
 
+      - name: Get the latest commit on the remote main branch before the current push
+        run: |
+           previous_commit=$(git rev-parse origin/main)
+           echo "Previous commit on origin/main: $previous_commit"
       - name: Find delta changes and create package.xml
         run: |
           mkdir -p "md_out"
