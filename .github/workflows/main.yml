@@ -49,7 +49,7 @@ jobs:
           configdir="$HOME/.config/sf"
           mkdir -p "$configdir"
           echo '["sfdx-git-delta"]' > $configdir/unsignedPluginAllowList.json
-          sf plugins:install sfdx-git-delta
+          sf plugins install sfdx-git-delta
 
 #      - name: Install Salesforce Scanner Plugin
 #        run: sf plugins:install @salesforce/sfdx-scanner
@@ -72,7 +72,7 @@ jobs:
       - name: Find delta changes and create package.xml
         run: |
           mkdir -p "md_out"
-          sf sgd source delta --to "HEAD" --from origin/main --output ./md_out
+          sf sgd source delta --to "HEAD" --from main --output ./md_out
           cat ./md_out/package/package.xml
 
       - name: Preview Deployment
