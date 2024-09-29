@@ -8,6 +8,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Check if event is push
+        if: github.event_name != 'push'
+        run: |
+          echo "⚠️ Not a push event. Stopping execution."
+          exit 1  # Stops the workflow if this is not a push event
+
       - name: Runner
         run: echo "🐧 GitHub Action running on ${{ runner.os }}"
 
@@ -19,9 +25,9 @@ jobs:
         with:
           fetch-depth: 3 # Fetch the last 2 commits - remove later
 
-      - name: Check if Direct Push to main
-        if: github.event.head_commit && github.event.pusher && startsWith(github.ref, 'refs/heads/main')
-        run: echo "✅ This is a direct push to main branch. Deployment will continue."
+#      - name: Check if Direct Push to main
+#        if: github.event.head_commit && github.event.pusher && startsWith(github.ref, 'refs/heads/main')
+#        run: echo "✅ This is a direct push to main branch. Deployment will continue."
 
       - name: Install Salesforce CLI
         run: npm install --global @salesforce/cli
