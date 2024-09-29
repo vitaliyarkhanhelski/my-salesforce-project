@@ -31,8 +31,8 @@ jobs:
         with:
           fetch-depth: 3 # Fetch the last 2 commits - remove later
 
-      - name: Fetch Main Branch
-        run: git fetch origin main  # Explicitly fetch the main branch to use for delta comparison
+#      - name: Fetch Main Branch
+#        run: git fetch origin main  # Explicitly fetch the main branch to use for delta comparison
 
 #      - name: Check if Direct Push to main
 #        if: github.event.head_commit && github.event.pusher && startsWith(github.ref, 'refs/heads/main')
@@ -72,7 +72,7 @@ jobs:
       - name: Find delta changes and create package.xml
         run: |
           mkdir -p "md_out"
-          sf sgd source delta --to origin/main --from main --output ./md_out
+          sf sgd source delta --to HEAD --from main --output ./md_out
           cat ./md_out/package/package.xml
 
       - name: Preview Deployment
