@@ -5,15 +5,16 @@ on:
       - main
 jobs:
   SFDX-CLI-Deploy:
-    if: false  # This disables the entire job
+    if: github.event_name == 'push'  # This disables the entire job
     runs-on: ubuntu-latest
 
     steps:
-#      - name: Check if event is push
-#        if: github.event_name != 'push'
-#        run: |
-#          echo "⚠️ Not a push event. Stopping execution."
-#          exit 1  # Stops the workflow if this is not a push event
+      - name: Check if event is push
+        if: github.event_name != 'push'
+        run: |
+          echo "⚠️ Not a push event. Stopping execution."
+          echo github.event_name == 'push'
+          exit 1  # Stops the workflow if this is not a push event
 
       - name: Runner
         run: echo "🐧 GitHub Action running on ${{ runner.os }}"
