@@ -18,13 +18,13 @@ jobs:
 #          echo github.event_name == 'push'
 #          exit 1  # Stops the workflow if this is not a push event
 
-      - name: Runner
-        run: | 
-          echo "🐧 GitHub Action running on ${{ runner.os }}"
-          echo github.event_name == 'push'
-
-      - name: GitHub Repository
-        run: echo "🔎 Retrieving ${{ github.ref }} from ${{ github.repository }}."
+#      - name: Runner
+#        run: |
+#          echo "🐧 GitHub Action running on ${{ runner.os }}"
+#          echo github.event_name == 'push'
+#
+#      - name: GitHub Repository
+#        run: echo "🔎 Retrieving ${{ github.ref }} from ${{ github.repository }}."
 
       - name: Checkout Repository
         uses: actions/checkout@v3
@@ -41,8 +41,8 @@ jobs:
       - name: Install Salesforce CLI
         run: npm install --global @salesforce/cli
 
-      - name: Checkout Salesforce CLI version
-        run: sf --version
+#      - name: Checkout Salesforce CLI version
+#        run: sf --version
 
       - name: Install sfdx-git-delta
         run: |
@@ -72,7 +72,7 @@ jobs:
       - name: Find delta changes and create package.xml
         run: |
           mkdir -p "md_out"
-          sf sgd source delta --to "HEAD" --from "${{ env.BASE_BRANCH }}" --output ./md_out
+          sf sgd source delta --to "HEAD" --from origin/main --output ./md_out
           cat ./md_out/package/package.xml
 
       - name: Preview Deployment
