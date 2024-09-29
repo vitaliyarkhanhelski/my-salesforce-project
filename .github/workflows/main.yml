@@ -20,7 +20,7 @@ jobs:
           fetch-depth: 3 # Fetch the last 2 commits - remove later
 
       - name: Check if Direct Push to main
-        if: github.event_name == 'push' && startsWith(github.ref, 'refs/heads/main')
+        if: github.event.head_commit && github.event.pusher && startsWith(github.ref, 'refs/heads/main')
         run: echo "✅ This is a direct push to main branch. Deployment will continue."
 
       - name: Install Salesforce CLI
