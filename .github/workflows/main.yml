@@ -10,11 +10,11 @@ jobs:
 
     steps:
       - name: Check if event is push
-        if: github.event_name != 'push'
-        run: |
-          echo "⚠️ Not a push event. Stopping execution."
-          echo github.event_name == 'push'
-          exit 1  # Stops the workflow if this is not a push event
+#        if: github.event_name != 'push'
+#        run: |
+#          echo "⚠️ Not a push event. Stopping execution."
+#          echo github.event_name == 'push'
+#          exit 1  # Stops the workflow if this is not a push event
 
       - name: Runner
         run: | 
