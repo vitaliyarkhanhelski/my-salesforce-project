@@ -7,6 +7,8 @@ jobs:
   SFDX-CLI-Deploy:
 #    if: github.event_name != 'push'  # This disables the entire job
     runs-on: ubuntu-latest
+    env:
+      BASE_BRANCH: "origin/main"
 
     steps:
 #      - name: Check if event is push
@@ -67,7 +69,7 @@ jobs:
       - name: Find delta changes and create package.xml
         run: |
           mkdir -p "md_out"
-          sf sgd source delta --to "HEAD" --from "HEAD~1" --output ./md_out
+          sf sgd source delta --to "HEAD" --from "${{ env.BASE_BRANCH }}" --output ./md_out
           cat ./md_out/package/package.xml
 
       - name: Preview Deployment
