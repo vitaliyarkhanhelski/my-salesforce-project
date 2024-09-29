@@ -71,12 +71,12 @@ jobs:
 
       - name: Get the latest commit on the remote main branch before the current push
         run: |
-           previous_commit=$(git rev-parse HEAD~2)
+           previous_commit=$(git merge-base HEAD origin/main)
            echo "Previous commit on origin/main: $previous_commit"
       - name: Find delta changes and create package.xml
         run: |
           mkdir -p "md_out"
-          sf sgd source delta --to HEAD --from "HEAD~2" --output ./md_out
+          sf sgd source delta --to HEAD --from "HEAD~1" --output ./md_out
           cat ./md_out/package/package.xml
 
       - name: Preview Deployment
