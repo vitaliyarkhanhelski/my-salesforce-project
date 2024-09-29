@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Check if event is push
+#      - name: Check if event is push
 #        if: github.event_name != 'push'
 #        run: |
 #          echo "⚠️ Not a push event. Stopping execution."
