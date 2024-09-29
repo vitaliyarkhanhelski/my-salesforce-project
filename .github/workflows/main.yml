@@ -8,10 +8,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Check if Direct Push to main
-        if: startsWith(github.ref, 'refs/heads/main')
-        run: echo "✅ This is a direct push to main branch. Deployment will continue."
-
       - name: Runner
         run: echo "🐧 GitHub Action running on ${{ runner.os }}"
 
@@ -22,6 +18,10 @@ jobs:
         uses: actions/checkout@v3
         with:
           fetch-depth: 3 # Fetch the last 2 commits - remove later
+
+      - name: Check if Direct Push to main
+        if: startsWith(github.ref, 'refs/heads/main')
+        run: echo "✅ This is a direct push to main branch. Deployment will continue."
 
       - name: Install Salesforce CLI
         run: npm install --global @salesforce/cli
