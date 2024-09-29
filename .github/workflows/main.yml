@@ -73,10 +73,13 @@ jobs:
 #        run: |
 #           previous_commit=$(git merge-base HEAD origin/main)
 #           echo "Previous commit on origin/main: $previous_commit"
+
       - name: Find delta changes and create package.xml
         run: |
           mkdir -p "md_out"
-          sf sgd source delta --to HEAD --from $(git merge-base HEAD origin/master) --output ./md_out
+          previous_commit=$(git merge-base HEAD origin/main)
+          echo "Previous commit on origin/main: $previous_commit"
+          sf sgd source delta --to HEAD --from $previous_commit" --output ./md_out
           cat ./md_out/package/package.xml
 
       - name: Preview Deployment
