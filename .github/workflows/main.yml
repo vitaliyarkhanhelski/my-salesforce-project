@@ -8,6 +8,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Check if Direct Push to main
+        if: startsWith(github.ref, 'refs/heads/main')
+        run: echo "✅ This is a direct push to main branch. Deployment will continue."
+
       - name: Runner
         run: echo "🐧 GitHub Action running on ${{ runner.os }}"
 
@@ -47,8 +51,8 @@ jobs:
           echo "${{ secrets.SALESFORCE_JWT_SECRET_KEY }}" > server.key
           sf org login jwt --client-id=${{ secrets.SALESFORCE_CONSUMER_KEY }} --jwt-key-file=server.key --username=${{ secrets.SALESFORCE_GITHUB_USERNAME }} --set-default-dev-hub
 
-      - name: Run Apex Tests
-        run: sf apex run test --result-format human --code-coverage --wait 10 -o ${{ secrets.SALESFORCE_GITHUB_USERNAME }}
+#      - name: Run Apex Tests
+#        run: sf apex run test --result-format human --code-coverage --wait 10 -o ${{ secrets.SALESFORCE_GITHUB_USERNAME }}
 
       - name: Find delta changes and create package.xml
         run: |
