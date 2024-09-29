@@ -5,7 +5,7 @@ on:
       - main
 jobs:
   SFDX-CLI-Deploy:
-    if: github.event_name != 'pull_request'
+    if: false  # This disables the entire job
     runs-on: ubuntu-latest
 
     steps:
