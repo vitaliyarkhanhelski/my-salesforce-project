@@ -8,80 +8,43 @@ jobs:
 #    if: github.event_name == 'push'  # This disables the entire job
     runs-on: ubuntu-latest
     env:
-      BASE_BRANCH: "origin/main"
       MANIFEST_PATH: "manifest/package.xml"
 
     steps:
-#      - name: Check if event is push
-#        if: github.event_name != 'push'
-#        run: |
-#          echo "⚠️ Not a push event. Stopping execution."
-#          echo github.event_name == 'push'
-#          exit 1  # Stops the workflow if this is not a push event
+      - name: Runner
+        run: |
+          echo "🐧 GitHub Action running on ${{ runner.os }}"
+          echo github.event_name == 'push'
 
-#      - name: Runner
-#        run: |
-#          echo "🐧 GitHub Action running on ${{ runner.os }}"
-#          echo github.event_name == 'push'
-#
-#      - name: GitHub Repository
-#        run: echo "🔎 Retrieving ${{ github.ref }} from ${{ github.repository }}."
+      - name: GitHub Repository
+        run: echo "🔎 Retrieving ${{ github.ref }} from ${{ github.repository }}."
 
       - name: Checkout Repository
         uses: actions/checkout@v3
-#        with: - REMOVE
-#          fetch-depth: 0 # Fetch the last 2 commits - remove later
-
-#      - name: Fetch Main Branch
-#        run: git fetch origin main  # Explicitly fetch the main branch to use for delta comparison
-
-#      - name: Check if Direct Push to main
-#        if: github.event.head_commit && github.event.pusher && startsWith(github.ref, 'refs/heads/main')
-#        run: echo "✅ This is a direct push to main branch. Deployment will continue."
 
       - name: Install Salesforce CLI
         run: npm install --global @salesforce/cli
 
-#      - name: Checkout Salesforce CLI version
-#        run: sf --version
+      - name: Checkout Salesforce CLI version
+        run: sf --version
 
-#      - name: Install sfdx-git-delta - REMOVE
-#        run: |
-#          configdir="$HOME/.config/sf"
-#          mkdir -p "$configdir"
-#          echo '["sfdx-git-delta"]' > $configdir/unsignedPluginAllowList.json
-#          sf plugins install sfdx-git-delta
+      - name: Install Salesforce Scanner Plugin
+        run: sf plugins:install @salesforce/sfdx-scanner
 
-#      - name: Install Salesforce Scanner Plugin
-#        run: sf plugins:install @salesforce/sfdx-scanner
-
-#      - name: Checkout Salesforce plugins version
-#        run: sf plugins
+      - name: Checkout Salesforce plugins version
+        run: sf plugins
 #
-#      - name: Run Code Scan
-#        id: scan_code
-#        run: sf scanner run --target "./force-app/main/default/classes/*.cls" --pmdconfig ./ruleref.xml --format "table" -s 3
+      - name: Run Code Scan
+        id: scan_code
+        run: sf scanner run --target "./force-app/main/default/classes/*.cls" --pmdconfig ./ruleref.xml --format "table" -s 3
 
       - name: Authenticate to Salesforce
         run: |
           echo "${{ secrets.SALESFORCE_JWT_SECRET_KEY }}" > server.key
           sf org login jwt --client-id=${{ secrets.SALESFORCE_CONSUMER_KEY }} --jwt-key-file=server.key --username=${{ secrets.SALESFORCE_GITHUB_USERNAME }} --set-default-dev-hub
 
-#      - name: Run Apex Tests
-#        run: sf apex run test --result-format human --code-coverage --wait 10 -o ${{ secrets.SALESFORCE_GITHUB_USERNAME }}
-
-#      - name: Get the latest commit on the remote main branch before the current push
-#        run: |
-#           previous_commit=$(git merge-base HEAD origin/main)
-#           echo "Previous commit on origin/main: $previous_commit"
-
-#      - name: Find delta changes and create package.xml
-#        run: |
-#          mkdir -p "md_out"
-#          previous_commit=$(git merge-base HEAD origin/main)
-#          echo "Previous commit on origin/main: $previous_commit"
-#          sf sgd source delta --to HEAD --from "$previous_commit" --output ./md_out
-#          cat ./md_out/package/package.xml
+      - name: Run Apex Tests
+        run: sf apex run test --result-format human --code-coverage --wait 10 -o ${{ secrets.SALESFORCE_GITHUB_USERNAME }}
 
       - name: Preview Deployment
         run: sf project deploy validate --manifest="${{ env.MANIFEST_PATH }}" --test-level=RunLocalTests --target-org=${{ secrets.SALESFORCE_GITHUB_USERNAME }}
