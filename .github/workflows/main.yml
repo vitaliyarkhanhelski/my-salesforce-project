@@ -28,8 +28,8 @@ jobs:
 
       - name: Checkout Repository
         uses: actions/checkout@v3
-        with:
-          fetch-depth: 0 # Fetch the last 2 commits - remove later
+#        with: - REMOVE
+#          fetch-depth: 0 # Fetch the last 2 commits - remove later
 
 #      - name: Fetch Main Branch
 #        run: git fetch origin main  # Explicitly fetch the main branch to use for delta comparison
@@ -44,12 +44,12 @@ jobs:
 #      - name: Checkout Salesforce CLI version
 #        run: sf --version
 
-      - name: Install sfdx-git-delta
-        run: |
-          configdir="$HOME/.config/sf"
-          mkdir -p "$configdir"
-          echo '["sfdx-git-delta"]' > $configdir/unsignedPluginAllowList.json
-          sf plugins install sfdx-git-delta
+#      - name: Install sfdx-git-delta - REMOVE
+#        run: |
+#          configdir="$HOME/.config/sf"
+#          mkdir -p "$configdir"
+#          echo '["sfdx-git-delta"]' > $configdir/unsignedPluginAllowList.json
+#          sf plugins install sfdx-git-delta
 
 #      - name: Install Salesforce Scanner Plugin
 #        run: sf plugins:install @salesforce/sfdx-scanner
@@ -74,13 +74,13 @@ jobs:
 #           previous_commit=$(git merge-base HEAD origin/main)
 #           echo "Previous commit on origin/main: $previous_commit"
 
-      - name: Find delta changes and create package.xml
-        run: |
-          mkdir -p "md_out"
-          previous_commit=$(git merge-base HEAD origin/main)
-          echo "Previous commit on origin/main: $previous_commit"
-          sf sgd source delta --to HEAD --from "$previous_commit" --output ./md_out
-          cat ./md_out/package/package.xml
+#      - name: Find delta changes and create package.xml
+#        run: |
+#          mkdir -p "md_out"
+#          previous_commit=$(git merge-base HEAD origin/main)
+#          echo "Previous commit on origin/main: $previous_commit"
+#          sf sgd source delta --to HEAD --from "$previous_commit" --output ./md_out
+#          cat ./md_out/package/package.xml
 
       - name: Preview Deployment
         run: sf project deploy validate --manifest=./md_out/package/package.xml --test-level=RunLocalTests --target-org=${{ secrets.SALESFORCE_GITHUB_USERNAME }}
@@ -88,7 +88,7 @@ jobs:
       - name: Deploy to Salesforce
         id: deploy
         run: |
-          deploy_output=$(sf project deploy start --manifest=./md_out/package/package.xml --test-level=RunLocalTests --target-org=${{ secrets.SALESFORCE_GITHUB_USERNAME }})
+          deploy_output=$(sf project deploy start --manifest=manifest/package.xml --test-level=RunLocalTests --target-org=${{ secrets.SALESFORCE_GITHUB_USERNAME }})
           echo "Deploy Output: $deploy_output"
           echo "DEPLOY_ID=$(echo $deploy_output | grep -o 'Deploy ID: [^ ]*' | awk '{print $3}')" >> $GITHUB_ENV
 
