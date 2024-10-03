@@ -26,4 +26,8 @@ public with sharing class MyClass {
         System.debug('5');
         System.debug('Check it out!!');
     }
+
+    public static void emptyMethod() {
+        Integer i;
+    }
 }
