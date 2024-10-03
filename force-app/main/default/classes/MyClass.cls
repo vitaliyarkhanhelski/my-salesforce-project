@@ -24,6 +24,6 @@ public with sharing class MyClass {
         System.debug('3!!!!!!!!!!!');
         System.debug('4');
         System.debug('5');
-        System.debug('Check it out!');
+        System.debug('Check it out!!');
     }
 }
