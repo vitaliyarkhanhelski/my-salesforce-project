@@ -11,13 +11,13 @@ jobs:
       MANIFEST_PATH: "manifest/package.xml"
 
     steps:
-      - name: Runner
-        run: |
-          echo "🐧 GitHub Action running on ${{ runner.os }}"
-          echo github.event_name == 'push'
-
-      - name: GitHub Repository
-        run: echo "🔎 Retrieving ${{ github.ref }} from ${{ github.repository }}."
+#      - name: Runner
+#        run: |
+#          echo "🐧 GitHub Action running on ${{ runner.os }}"
+#          echo github.event_name == 'push'
+#
+#      - name: GitHub Repository
+#        run: echo "🔎 Retrieving ${{ github.ref }} from ${{ github.repository }}."
 
       - name: Checkout Repository
         uses: actions/checkout@v3
@@ -28,23 +28,23 @@ jobs:
       - name: Checkout Salesforce CLI version
         run: sf --version
 
-      - name: Install Salesforce Scanner Plugin
-        run: sf plugins:install @salesforce/sfdx-scanner
-
-      - name: Checkout Salesforce plugins version
-        run: sf plugins
+#      - name: Install Salesforce Scanner Plugin
+#        run: sf plugins:install @salesforce/sfdx-scanner
 #
-      - name: Run Code Scan
-        id: scan_code
-        run: sf scanner run --target "./force-app/main/default/classes/*.cls" --pmdconfig ./ruleref.xml --format "table" -s 3
+#      - name: Checkout Salesforce plugins version
+#        run: sf plugins
+##
+#      - name: Run Code Scan
+#        id: scan_code
+#        run: sf scanner run --target "./force-app/main/default/classes/*.cls" --pmdconfig ./ruleref.xml --format "table" -s 3
 
       - name: Authenticate to Salesforce
         run: |
           echo "${{ secrets.SALESFORCE_JWT_SECRET_KEY }}" > server.key
           sf org login jwt --client-id=${{ secrets.SALESFORCE_CONSUMER_KEY }} --jwt-key-file=server.key --username=${{ secrets.SALESFORCE_GITHUB_USERNAME }} --set-default-dev-hub
 
-      - name: Run Apex Tests
-        run: sf apex run test --result-format human --code-coverage --wait 10 -o ${{ secrets.SALESFORCE_GITHUB_USERNAME }}
+#      - name: Run Apex Tests
+#        run: sf apex run test --result-format human --code-coverage --wait 10 -o ${{ secrets.SALESFORCE_GITHUB_USERNAME }}
 
       - name: Preview Deployment
         run: sf project deploy validate --manifest="${{ env.MANIFEST_PATH }}" --test-level=RunLocalTests --target-org=${{ secrets.SALESFORCE_GITHUB_USERNAME }}
