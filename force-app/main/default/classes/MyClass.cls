@@ -28,6 +28,6 @@ public with sharing class MyClass {
     }
 
     public static void emptyMethod() {
-        Integer i;
+//        Integer i;
     }
 }
