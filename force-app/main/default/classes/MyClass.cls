@@ -1,4 +1,5 @@
 public with sharing class MyClass {
+    Integer a;
 
     public static void hello() {
         System.debug('Hello World');
